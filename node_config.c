@@ -20,35 +20,35 @@ double difference( date a, date p ){
 
 
 int find ( int v ) {
-  int x = v;
-  while( ch[x] != x )
-    x = ch[x];
-       
-  return x;
+	int x = v;
+	while( ch[x] != x )
+    	x = ch[x];
+    return x;
 }
 
 void unionn ( int v, int u ){
-  if( sz[v] > sz[u] ){
-    ch[u] = v;
-    sz[v] += sz[u];
-  }else{
-    ch[v] = u;
-    sz[u] += sz[v];
-  }
+	if( sz[v] > sz[u] ){
+		ch[u] = v;
+		sz[v] += sz[u];
+	}else{
+		ch[v] = u;
+		sz[u] += sz[v];
+		
+	}
 }
 
 void unionn_DFS( int v ){
-  int i;
-       
-  cor[v] = 1;
-  for ( i = 0; i < MAX; i++ ){
-    if( M[v][i] && !cor[i] && v!=i){
-      ch[i] = i;
-      sz[i] = 1;
-      unionn(find(i), find(v));
-      unionn_DFS( i );
+	int i;
+    
+    cor[v] = 1;
+    for ( i = 0; i < MAX; i++ ){
+    	if( M[v][i] && !cor[i] && v!=i){
+    		ch[i] = i;
+    		sz[i] = 1;
+    		unionn(find(i), find(v));
+    		unionn_DFS( i );
+    	}
     }
-  }
 }
 
 
@@ -56,19 +56,19 @@ void change ( int v ){
   int i, k;
   
   //devo comparar inserçoes antes, para não quebrar componentes
-  for( i = 0; i < MAX; i++ ){
-    if(haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y) <= RANGE ){
-      //caso a aresta ainda não exista
-      if(M[v][i] == 0){
-	M[v][i] = M[i][v] = 1;
-	//caso estiverem em componentes diferentes
-	if(find(v) != find(i)){		   
-	  unionn( find(v), find(i) );
-	  new[find(v)]  = 1;
-	}
-      }
-    }
-  }
+	for( i = 0; i < MAX; i++ ){
+		if(haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y) <= RANGE ){
+			//caso a aresta ainda não exista
+      		if(M[v][i] == 0){
+				M[v][i] = M[i][v] = 1;
+				//caso estiverem em componentes diferentes
+				if(find(v) != find(i)){		   
+	  				unionn( find(v), find(i) );
+	  				new[find(v)]  = 1;
+				}
+      		}
+    	}
+  	}
   
 	for ( i = 0; i < MAX; i++ ){
 		if(haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y) > RANGE ){
@@ -108,7 +108,7 @@ void mount(){
         	ch[i] = i;
         	sz[i] = 1;
         	unionn_DFS( i );              
-    	}
+		}
 }
 
 
