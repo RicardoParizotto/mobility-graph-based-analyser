@@ -37,11 +37,10 @@ void unionn ( int v, int u ){
 
 void unionn_DFS( int v ){
 	int i;
-    	
-    cor[v] = 1;
-    for ( i = 0; i < MAX; i++ ){
-    	if( M[v][i] && !cor[i] && v!=i){
-			ch[i] = i;
+	cor[v] = 1;
+	for ( i = 0; i < MAX; i++ ){
+		if( M[v][i] && !cor[i] && v!=i){
+	    		ch[i] = i;
 			sz[i] = 1;
 			unionn(find(i), find(v));
 			unionn_DFS( i );
