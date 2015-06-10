@@ -4,8 +4,9 @@
 #include <string.h>
 
 
-#define MAX 316       //Number of nodes
-#define RANGE 18000
+#define MAX 		316       
+#define RANGE 		18000
+#define INFINITO 	2000000
 
 typedef struct node{
   double x, y;
@@ -23,7 +24,7 @@ int ch[MAX], sz[MAX], new[MAX];
 int cor[MAX];
 
 //adj matrix
-char M[MAX][MAX];
+double M[MAX][MAX];
 
 //grid structures
 node grid[MAX];

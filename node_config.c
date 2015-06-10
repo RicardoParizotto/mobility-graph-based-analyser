@@ -51,19 +51,20 @@ void unionn_DFS( int v ){
 
 void change ( int v ){
   int i, k;
-  
+  double dist;
+
   //devo comparar inserçoes antes, para não quebrar componentes
 	for( i = 0; i < MAX; i++ ){
-		if(haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y) <= RANGE ){
+		if((dist = haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y)) <= RANGE ){
 			//caso a aresta ainda não exista
-      			if(M[v][i] == 0){
-				M[v][i] = M[i][v] = 1;
+      		if(M[v][i] == 0){
+				M[v][i] = M[i][v] = dist;
 				//caso estiverem em componentes diferentes
 				if(find(v) != find(i)){		   
 	  				unionn( find(v), find(i) );
 	  				new[find(v)]  = 1;
 				}
-      			}
+      		}
 		}
 	}
   
@@ -93,10 +94,11 @@ void change ( int v ){
 
 void mount(){
 	int i, j;
+	double dist;
 
 	for( i = 0; i < MAX; i++ )
 		for ( j = i; j < MAX; j++ )
-			M[i][j] = M[j][i] = (haversin(grid[i].x, grid[i].y, grid[j].x, grid[j].y) <= RANGE )? 1: 0;
+			M[i][j] = M[j][i] = (dist = (haversin(grid[i].x, grid[i].y, grid[j].x, grid[j].y) <= RANGE ))? dist: 0;
 
 	memset(cor, 0, MAX*sizeof(int));
 	
@@ -107,5 +109,31 @@ void mount(){
         		unionn_DFS( i );              
 		}
 }
+
+double floyd_warshall(){
+	double dist[MAX][MAX], diam;
+	int i, j, k;
+
+
+	for ( i = 0; i < MAX; i++ )
+		for(j = 0; j < MAX; j++ )
+			dist[i][j] = M[i][j] == 0 ? INFINITO:M[i][j];
+
+	for ( i = 0; i < MAX; i++ )
+		for ( j = 0; j < MAX; j++ )
+			for( k = 0; k < MAX; k++ )
+				if(dist[k][j] > dist[k][i] + dist[j][i])
+					dist[k][j] = dist[k][i] + dist[j][i];
+
+	for ( diam = i = 0; i < MAX; i++ )
+		for ( j = 0; j < MAX; j++ )
+			if ( dist[i][j] > diam && dist[i][j] != INFINITO )
+				diam = dist[i][j];
+				
+	return diam;
+}
+
+
+
 
 
