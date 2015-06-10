@@ -53,14 +53,7 @@ int main ( int arcv, char ** argc ){
 		sscanf( &line[++aux], "%lf %lf", &grid[map[n]].x, &grid[map[n]].y);
 
 		change(map[n]);
-/*
-		for ( h = 0; h < MAX; h++ )
-			if(new[h]){
-				printf("Aumenta\n");
-				exit(1);
-			}
 
-*/
 		for ( h = 0; h < MAX; h++ )
 			if(new[h] && ch[h]==h){
 				qtd[sz[h]]++;
@@ -71,8 +64,6 @@ int main ( int arcv, char ** argc ){
 
 	for ( h = 0; h < MAX; h++ )
 		if(qtd[h]) printf("%d -> %d | media : %lf\n", h, qtd[h], time[h]/qtd[h]);
-
-
 
 	return 0;
 }
