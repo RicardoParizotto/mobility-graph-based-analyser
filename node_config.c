@@ -104,9 +104,9 @@ void mount(){
 	
 	for( i = 0; i < MAX; i++)
 		if(!cor[i]){ //certificar-se que cor inicia com 0
-        	ch[i] = i;
-        	sz[i] = 1;
-        	unionn_DFS( i );              
+        		ch[i] = i;
+        		sz[i] = 1;
+        		unionn_DFS( i );              
 		}
 }
 
