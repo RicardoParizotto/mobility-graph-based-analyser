@@ -14,7 +14,6 @@ double difference( date a, date p ){
 		}else
 			return (p.dd - a.dd - 1)*24*60 + (24- a.hr - 1)*60 + (60 - a.min) + p.min + p.hr*60;
 	}
-
 	return (p.mm - a.mm - 1)*30*24*60 + (p.dd - 1)*24*60 + p.hr*60 + p.min + (month[a.mm] - a.dd)*24*60 + (24 - a.hr - 1)*60 + (60 - a.min);
 }
 
@@ -59,16 +58,16 @@ void change ( int v ){
 	for( i = 0; i < MAX; i++ ){
 		if(haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y) <= RANGE ){
 			//caso a aresta ainda não exista
-      		if(M[v][i] == 0){
+      			if(M[v][i] == 0){
 				M[v][i] = M[i][v] = 1;
 				//caso estiverem em componentes diferentes
 				if(find(v) != find(i)){		   
 	  				unionn( find(v), find(i) );
 	  				new[find(v)]  = 1;
 				}
-      		}
-    	}
-  	}
+      			}
+		}
+	}
   
 	for ( i = 0; i < MAX; i++ ){
 		if(haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y) > RANGE ){
@@ -89,7 +88,7 @@ void change ( int v ){
 					sz[i] = 1;
 					unionn_DFS( i );
 				}     
-	      	}                  
+			}                  
 		}
 	}       
 }
