@@ -57,14 +57,14 @@ void change ( int v ){
 	for( i = 0; i < MAX; i++ ){
 		if((dist = haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y)) <= RANGE ){
 			//caso a aresta ainda não exista
-      		if(M[v][i] == 0){
+      			if(M[v][i] == 0){
 				M[v][i] = M[i][v] = dist;
 				//caso estiverem em componentes diferentes
 				if(find(v) != find(i)){		   
 	  				unionn( find(v), find(i) );
 	  				new[find(v)]  = 1;
 				}
-      		}
+      			}
 		}
 	}
   
