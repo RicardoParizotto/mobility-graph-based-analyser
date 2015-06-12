@@ -64,7 +64,7 @@ void change ( int v ){
 	  				unionn( find(v), find(i) );
 	  				new[find(v)]  = 1;
 				}
-      		}
+      			}
 		}
 	}
   
