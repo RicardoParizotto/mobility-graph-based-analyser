@@ -57,21 +57,21 @@ void change ( int v ){
 	for( i = 0; i < MAX; i++ ){
 		if((dist = haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y)) <= RANGE ){
 			//caso a aresta ainda não exista
-      			if(M[v][i] == 0){
+      		if(M[v][i] == 0){
 				M[v][i] = M[i][v] = dist;
 				//caso estiverem em componentes diferentes
 				if(find(v) != find(i)){		   
 	  				unionn( find(v), find(i) );
 	  				new[find(v)]  = 1;
 				}
-      			}
+      		}
 		}
 	}
   
 	for ( i = 0; i < MAX; i++ ){
 		if(haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y) > RANGE ){
-		//neste caso a aresta ira ser deletada
-			if(M[v][i] == 1){
+			//neste caso a aresta ira ser deletada
+			if(M[v][i] != 0){
 				memset(cor, 0, MAX*sizeof(int));
 				M[i][v] = M[v][i] = 0; //é necessário excluir a aresta antes de fazer a busca                              
 				ch[v] = v;
