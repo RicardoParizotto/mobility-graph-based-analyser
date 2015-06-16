@@ -6,19 +6,18 @@ int main ( int arcv, char ** argc ){
 	FILE * first_occurency, * taxi_data;
 	char line[200];
 	int map[400], h, aux, n;
-	int qtd[MAX];
-	double time[MAX];
+	int qtd[MAX + 1];
+	double time[MAX + 1];
 	
 	date NOW;
-
 
 	if(!(first_occurency = malloc(sizeof(FILE))))exit(1);
 	if(!(first_occurency = fopen(argc[1], "r")))exit(1);
 	if(!(taxi_data = malloc(sizeof(FILE)))) exit(1);
 	if(!(taxi_data = fopen(argc[2], "r"))) exit(1);
 
-	memset(qtd, 0, MAX*sizeof(int));
-	memset(time, 0, MAX*sizeof(double));
+	memset(qtd, 0, (MAX + 1)*sizeof(int));
+	memset(time, 0, (MAX + 1)*sizeof(double));
 
 
 	for ( n = 0; n < MAX; n++ ){
@@ -63,6 +62,10 @@ int main ( int arcv, char ** argc ){
 	}
 
 	for ( h = 0; h < MAX; h++ )
+		if(ch[h] == h)
+			time[sz[h]]+=difference(BIRTH[sz[h]], NOW);
+
+	for ( h = 0; h <= MAX; h++ )
 		if(qtd[h]) printf("%d -> %d | media : %lf\n", h, qtd[h], time[h]/qtd[h]);
 
 	return 0;

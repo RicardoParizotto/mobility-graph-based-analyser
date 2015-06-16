@@ -64,7 +64,7 @@ void change ( int v ){
 	  				unionn( find(v), find(i) );
 	  				new[find(v)]  = 1;
 				}
-      			}
+      		}
 		}
 	}
   
@@ -74,14 +74,14 @@ void change ( int v ){
 			if(M[v][i] != 0){
 				memset(cor, 0, MAX*sizeof(int));
 				M[i][v] = M[v][i] = 0; //é necessário excluir a aresta antes de fazer a busca                              
+				BIRTH[v] = BIRTH[find(v)];
 				ch[v] = v;
 				sz[v] = 1;
 				k = find(v);
-				BIRTH[v] = BIRTH[k];
 				//aresta vi é ponte?
 				unionn_DFS( v );
 				if(cor[i] == 0){
-					BIRTH[i] = BIRTH[k];
+					BIRTH[i] = BIRTH[v];
 					new[i] = new[v] = 1;
 					ch[i] = i;
 					sz[i] = 1;
