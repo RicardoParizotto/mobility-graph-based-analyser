@@ -27,6 +27,15 @@ def show (X, Y, xlabel, ylabel, title):
 	pylab.grid(True)
 	pylab.show()
 
+def show1(X, Y, xlabel, ylabel, title):
+	pylab.plot(X, Y)
+	pylab.title(title)
+	pylab.ylabel(ylabel)
+	pylab.xlabel(xlabel)
+	pylab.grid(True)
+	pylab.show()
+	
+
 def graph1():
 	X = []	
 	Y = []
@@ -39,7 +48,7 @@ def graph1():
 
 	print X
 	print Y
-	show(X, Y, 'Range (Metros)', 'Tempo medio de duracao (minutos)', ' ')				
+	show1(X, Y, 'Range (Metros)', 'Tempo medio de duracao (minutos)', ' ')				
 
 def graph2():
 	X = []
@@ -52,7 +61,7 @@ def graph2():
 		X.append(int(i.split('/')[-1][0:-5]))
 	print X
 	print Y
-	show(X, Y, 'Range (metros)', 'Maior quantidade de componentes', ' ')
+	show1(X, Y, 'Range (metros)', 'Maior quantidade de componentes', ' ')
 
 def graph3():
 	X = []
@@ -64,7 +73,7 @@ def graph3():
 		X.append(int(i.split('/')[-1][0:-5]))
 	print X
 	print Y
-	show(X, Y, 'Range (metros)', 'Tempo medio do maior componente', ' ');
+	show1(X, Y, 'Range (metros)', 'Tempo medio do maior componente', ' ');
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@
 
 
 #define MAX 		316       
-#define RANGE 		18000
+#define RANGE 		1000
 #define INFINITO 	2000000
 
 typedef struct node{
@@ -51,7 +51,8 @@ void mount();
 
 double difference( date a, date p );
 
-
+//diametro
+double floyd_warshall();
 
 
 
