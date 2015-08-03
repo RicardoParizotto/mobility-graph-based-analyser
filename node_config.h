@@ -5,7 +5,7 @@
 
 
 #define MAX 		316       
-#define RANGE 		1000
+#define RANGE 		6500
 #define INFINITO 	2000000
 
 typedef struct node{
@@ -22,6 +22,8 @@ int ch[MAX], sz[MAX], new[MAX];
 
 //dfs structures
 int cor[MAX];
+
+double dist[MAX][MAX];
 
 //adj matrix
 double M[MAX][MAX];
@@ -49,13 +51,16 @@ void change ( int v );
 //initial graph
 void mount();
 
+//diferença em minutos entre duas datas
 double difference( date a, date p );
 
-//diametro
-double floyd_warshall();
+//preenche matrix de distancias
+void floyd_warshall();
 
+//diametro do grafo - apenas para grafo conexo
+double diam ();
 
-
+double raio ();
 
 
 

@@ -5,9 +5,9 @@ int main ( int arcv, char ** argc ){
 
 	FILE * first_occurency, * taxi_data;
 	char line[200];
-	int map[400], h, aux, n;
-	int qtd[MAX + 1];
-	double time[MAX + 1];
+	int map[400], h, aux, n, ctime, select, i, j;
+	int qtd[MAX + 1], ex_min[MAX + 1];
+	double time[MAX + 1], temp;
 	
 	date NOW;
 
@@ -18,6 +18,11 @@ int main ( int arcv, char ** argc ){
 
 	memset(qtd, 0, (MAX + 1)*sizeof(int));
 	memset(time, 0, (MAX + 1)*sizeof(double));
+	memset(ex_min, 0, (MAX + 1)*sizeof(int));
+
+	printf("selecione a operacao\n");
+	scanf("%d", &select);
+	ctime = 0;
 
 
 	for ( n = 0; n < MAX; n++ ){
@@ -37,10 +42,12 @@ int main ( int arcv, char ** argc ){
 	}
 	
 	mount();
+
 	
 	for( h = 0; h < MAX; h++ )
 		if(ch[h] == h)
 			qtd[sz[h]]++;
+
 
 	while( fscanf( taxi_data, " %d;", &n) != EOF ){
 		memset(new, 0, MAX*sizeof(int));
@@ -59,14 +66,36 @@ int main ( int arcv, char ** argc ){
 				time[sz[h]]+=difference(BIRTH[sz[h]], NOW);
 				BIRTH[sz[h]] = NOW;
 			}
+	
+		switch(select){
+			case 0: 
+					for ( h = 0; h < MAX; h++ )
+						if(ch[h] == h)
+							time[sz[h]]+=difference(BIRTH[sz[h]], NOW);
+		
+					for ( h = 0; h <= MAX; h++ )
+						if(qtd[h]) printf("%d -> %d | media : %lf\n", h, qtd[h], time[h]/qtd[h]);
+
+					break;
+			case 1: 
+					if(ctime++ == 0){
+						floyd_warshall();
+						temp = raio();
+						for( i = 0; i < MAX; i++)
+							for ( j = 0; j < MAX; j++)
+								if(dist[i][j] == temp){
+									ex_min[i]++;
+									ex_min[j]++;
+								}
+					}else if( ctime == 1000 )
+							ctime = 0;
+					break;
+			default: exit(1);		
+		}
 	}
-
-	for ( h = 0; h < MAX; h++ )
-		if(ch[h] == h)
-			time[sz[h]]+=difference(BIRTH[sz[h]], NOW);
-
-	for ( h = 0; h <= MAX; h++ )
-		if(qtd[h]) printf("%d -> %d | media : %lf\n", h, qtd[h], time[h]/qtd[h]);
-
+	if(select == 1){
+		for ( i = 0; i < MAX; i++ )
+			printf("%d -> %d\n", i, ex_min[i]);
+	}
 	return 0;
 }

@@ -50,12 +50,13 @@ void unionn_DFS( int v ){
 
 
 void change ( int v ){
-  int i, k;
+  int i;
   double dist;
 
   //devo comparar inserçoes antes, para não quebrar componentes
 	for( i = 0; i < MAX; i++ ){
-		if((dist = haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y)) <= RANGE ){
+		dist = haversin(grid[v].x, grid[v].y, grid[i].x, grid[i].y);
+		if(dist <= RANGE ){
 			//caso a aresta ainda não exista
       		if(M[v][i] == 0){
 				M[v][i] = M[i][v] = dist;
@@ -77,7 +78,6 @@ void change ( int v ){
 				BIRTH[v] = BIRTH[find(v)];
 				ch[v] = v;
 				sz[v] = 1;
-				k = find(v);
 				//aresta vi é ponte?
 				unionn_DFS( v );
 				if(cor[i] == 0){
@@ -97,8 +97,10 @@ void mount(){
 	double dist;
 
 	for( i = 0; i < MAX; i++ )
-		for ( j = i; j < MAX; j++ )
-			M[i][j] = M[j][i] = (dist = (haversin(grid[i].x, grid[i].y, grid[j].x, grid[j].y) <= RANGE ))? dist: 0;
+		for ( j = i; j < MAX; j++ ){
+			dist = (haversin(grid[i].x, grid[i].y, grid[j].x, grid[j].y)); 
+			M[i][j] = M[j][i] = ((dist <= RANGE )? dist: 0);
+		}
 
 	memset(cor, 0, MAX*sizeof(int));
 	
@@ -110,8 +112,7 @@ void mount(){
 		}
 }
 
-double floyd_warshall(){
-	double dist[MAX][MAX], diam;
+void floyd_warshall(){
 	int i, j, k;
 
 
@@ -124,16 +125,31 @@ double floyd_warshall(){
 			for( k = 0; k < MAX; k++ )
 				if(dist[k][j] > dist[k][i] + dist[j][i])
 					dist[k][j] = dist[k][i] + dist[j][i];
+}
 
+double diam (){
+	int i, j;
+	double diam;
+	
 	for ( diam = i = 0; i < MAX; i++ )
 		for ( j = 0; j < MAX; j++ )
 			if ( dist[i][j] > diam && dist[i][j] != INFINITO )
 				diam = dist[i][j];
 				
-	return diam;
+	return diam;	
+} 
+
+double raio (){
+	int i, j;
+	double r = INFINITO, temp;
+		
+	for ( i = 0; i < MAX; i++ ){
+		for ( j = temp = 0; j < MAX; j++)
+			temp = (dist[i][j] > temp && dist[i][j] != INFINITO)? dist[i][j] : temp;
+		r = (temp < r)? temp:r;
+	}
+	return r;
 }
-
-
 
 
 
