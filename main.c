@@ -5,7 +5,7 @@ int main ( int arcv, char ** argc ){
 
 	FILE * first_occurency, * taxi_data;
 	char line[200];
-	int map[400], h, aux, n, ctime, select, i, j;
+	int map[400], h, aux, n, ctime, select, i, j, day=1;
 	int qtd[MAX + 1], ex_min[MAX + 1];
 	double time[MAX + 1], temp;
 	
@@ -20,7 +20,6 @@ int main ( int arcv, char ** argc ){
 	memset(time, 0, (MAX + 1)*sizeof(double));
 	memset(ex_min, 0, (MAX + 1)*sizeof(int));
 
-	printf("selecione a operacao\n");
 	scanf("%d", &select);
 	ctime = 0;
 
@@ -59,6 +58,22 @@ int main ( int arcv, char ** argc ){
 		sscanf( &line[++aux], "%lf %lf", &grid[map[n]].x, &grid[map[n]].y);
 
 		change(map[n]);
+		
+		if(select == 2){
+			if (NOW.dd != day){
+				day = NOW.dd;
+				for ( h = 0; h < MAX; h++ )
+					if(ch[h] == h)
+						time[sz[h]]+=difference(BIRTH[sz[h]], NOW);
+	
+				printf("%d/%d/%d\n  ", NOW.yy, NOW.mm, NOW.dd);
+
+				for ( h = 0; h <= MAX; h++ )
+					if(qtd[h]) printf("%d -> %d | media : %lf\n", h, qtd[h], time[h]/qtd[h]);
+				memset(qtd, 0, (MAX + 1)*sizeof(int));
+				memset(time, 0, (MAX + 1)*sizeof(double));
+			}
+		}
 
 		for ( h = 0; h < MAX; h++ )
 			if(new[h] && ch[h]==h){
@@ -67,35 +82,40 @@ int main ( int arcv, char ** argc ){
 				BIRTH[sz[h]] = NOW;
 			}
 	
-		switch(select){
-			case 0: 
-					for ( h = 0; h < MAX; h++ )
-						if(ch[h] == h)
-							time[sz[h]]+=difference(BIRTH[sz[h]], NOW);
-		
-					for ( h = 0; h <= MAX; h++ )
-						if(qtd[h]) printf("%d -> %d | media : %lf\n", h, qtd[h], time[h]/qtd[h]);
-
-					break;
-			case 1: 
-					if(ctime++ == 0){
-						floyd_warshall();
-						temp = raio();
-						for( i = 0; i < MAX; i++)
-							for ( j = 0; j < MAX; j++)
-								if(dist[i][j] == temp){
-									ex_min[i]++;
-									ex_min[j]++;
-								}
-					}else if( ctime == 1000 )
-							ctime = 0;
-					break;
-			default: exit(1);		
+		if(select == 1){
+			if(ctime++ == 0){
+				floyd_warshall();
+				temp = raio();
+				for( i = 0; i < MAX; i++)
+					for ( j = 0; j < MAX; j++)
+						if(dist[i][j] == temp){
+							ex_min[i]++;
+							ex_min[j]++;
+						}
+			}else if( ctime == 1000 )
+					ctime = 0;
+				
 		}
 	}
-	if(select == 1){
-		for ( i = 0; i < MAX; i++ )
-			printf("%d -> %d\n", i, ex_min[i]);
+	switch(select){
+		case 0:
+				for ( h = 0; h < MAX; h++ )
+					if(ch[h] == h)
+						time[sz[h]]+=difference(BIRTH[sz[h]], NOW);
+	
+				for ( h = 0; h <= MAX; h++ )
+					if(qtd[h]) printf("%d -> %d | media : %lf\n", h, qtd[h], time[h]/qtd[h]);
+
+				break;
+				
+				
+		case 1: 
+				for ( i = 0; i < MAX; i++ )
+					printf("%d -> %d\n", i, ex_min[i]);
+				
+				break;
+
+		default: exit(1);
 	}
 	return 0;
 }
