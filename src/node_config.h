@@ -33,6 +33,7 @@ node grid[MAX];
 
 date BIRTH[MAX];  
 
+date NOW;
 
 //return the chef of v
 int find ( int v );
