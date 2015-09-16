@@ -12,7 +12,6 @@ int main ( int arcv, char ** argc ){
 	int map[400], h, aux, n, ctime = 0, select, i, j, day=1;
 	int qtd[MAX + 1], ex_min[MAX + 1];
 	double time[MAX + 1], temp;
-	int comp_form[316][316];
 	date ant;
 	
 	if(!(first_occurency = malloc(sizeof(FILE))))exit(1);
@@ -20,7 +19,7 @@ int main ( int arcv, char ** argc ){
 	if(!(taxi_data = malloc(sizeof(FILE)))) exit(1);
 	if(!(taxi_data = fopen(argc[2], "r"))) exit(1);
 
-	printf("0 - Analise da rede como um todo\n1 - Analise da rede com táxis com maior range(alfa)\n2 - Analise diaria da rede\n\n");
+	printf("0 - Analise da rede como um todo\n1 - Analise da rede com táxis com maior range(alfa)\n2 - Analise diaria da rede\n3 - Análise a cada 15min\n\n");
 	scanf("%d", &select);
 	printf("Digite o nome do arquivo de saída(max 200 carac.\n");
 	scanf(" %s", out_name);
@@ -159,14 +158,6 @@ int main ( int arcv, char ** argc ){
 					fprintf(out_file, "%d -> %d\n", i, ex_min[i]);
 				
 				break;
-
-		case 3:
-				for( i = 0; i < MAX; i++ ){
-					fprintf(out_file, "%d\n");
-					for(j = 0; j < MAX; j++ )
-						if(comp_form[h])
-							fprintf(out_file, "%d -> %d ", h, comp_form[h]
-				}
 		default: exit(1);
 	}
 	return 0;
