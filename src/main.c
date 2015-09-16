@@ -31,7 +31,6 @@ int main ( int arcv, char ** argc ){
 	memset(qtd, 0, (MAX + 1)*sizeof(int));
 	memset(time, 0, (MAX + 1)*sizeof(double));
 	memset(ex_min, 0, (MAX + 1)*sizeof(int));
-	memset(comp_form, 0, MAX*sizeof(int));
 			
 	for ( n = 0; n < MAX; n++ ){
 		fscanf( first_occurency, " %[^\n]", line );
