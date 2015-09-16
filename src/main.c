@@ -12,6 +12,8 @@ int main ( int arcv, char ** argc ){
 	int map[400], h, aux, n, ctime = 0, select, i, j, day=1;
 	int qtd[MAX + 1], ex_min[MAX + 1];
 	double time[MAX + 1], temp;
+	int comp_form[316][316];
+	date ant;
 	
 	if(!(first_occurency = malloc(sizeof(FILE))))exit(1);
 	if(!(first_occurency = fopen(argc[1], "r")))exit(1);
@@ -30,7 +32,8 @@ int main ( int arcv, char ** argc ){
 	memset(qtd, 0, (MAX + 1)*sizeof(int));
 	memset(time, 0, (MAX + 1)*sizeof(double));
 	memset(ex_min, 0, (MAX + 1)*sizeof(int));
-		
+	memset(comp_form, 0, MAX*sizeof(int));
+			
 	for ( n = 0; n < MAX; n++ ){
 		fscanf( first_occurency, " %[^\n]", line );
 		sscanf( line, "%d", &h );
@@ -46,6 +49,8 @@ int main ( int arcv, char ** argc ){
 		BIRTH[h].dd = 01;
 		BIRTH[h].hr = BIRTH[h].min = BIRTH[h].sec = 0;
 	}
+
+	ant = BIRTH[0];
 	
 	mount();
 
@@ -75,6 +80,7 @@ int main ( int arcv, char ** argc ){
 			}
 		}
 
+
 		if(select == 2){
 			if (NOW.dd != day){
 				fprintf(out_file, "%d/%d/%d\n", NOW.yy, NOW.mm, day);
@@ -94,7 +100,7 @@ int main ( int arcv, char ** argc ){
 				memset(time, 0, (MAX + 1)*sizeof(double));
 			}
 		}
-
+		
 	
 		if(select == 1){
 			if(ctime++ == 0){
@@ -107,10 +113,36 @@ int main ( int arcv, char ** argc ){
 							ex_min[j]++;
 						}
 			}else if( ctime == 1000 )
-					ctime = 0;
+				ctime = 0;
 				
 		}
+
+		if(select == 3){
+			ctime += difference(ant, NOW);
+			ant = NOW;
+			
+			if(ctime > 15){
+				fprintf(out_file, "%d/%d/%d\n", NOW.yy, NOW.mm, day);
+				day = NOW.dd;
+				for ( h = 0; h < MAX; h++ )
+					if(ch[h] == h){
+						time[sz[h]]+=difference(BIRTH[h], NOW);
+						if(!qtd[sz[h]]) qtd[sz[h]]++;			//caso o componente não tenha se modificado de um dia para outro. É importante deixar claro que ele existe para contabilizar o tempo.
+					}
+																
+				for( h = 0; h < MAX; h++)
+					BIRTH[h] = NOW;
+			
+				ctime = 0;
+				
+				for ( h = 0; h <= MAX; h++ )
+					if(qtd[h]) fprintf(out_file, "%d -> %d | media : %lf\n", h, qtd[h], time[h]/qtd[h]);
+				memset(qtd, 0, (MAX + 1)*sizeof(int));
+				memset(time, 0, (MAX + 1)*sizeof(double));
+			}
+		}
 	}
+	
 	switch(select){
 		case 0:
 				for ( h = 0; h < MAX; h++ )
@@ -128,6 +160,13 @@ int main ( int arcv, char ** argc ){
 				
 				break;
 
+		case 3:
+				for( i = 0; i < MAX; i++ ){
+					fprintf(out_file, "%d\n");
+					for(j = 0; j < MAX; j++ )
+						if(comp_form[h])
+							fprintf(out_file, "%d -> %d ", h, comp_form[h]
+				}
 		default: exit(1);
 	}
 	return 0;
