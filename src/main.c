@@ -139,6 +139,29 @@ int main ( int arcv, char ** argc ){
 				memset(time, 0, (MAX + 1)*sizeof(double));
 			}
 		}
+
+		if(select == 4){
+			ctime += difference(ant, NOW);
+			ant = NOW;
+			
+			if(ctime > 15){
+				fprintf(out_file, "%d/%d/%d\n", NOW.yy, NOW.mm, day);
+				day = NOW.dd;
+					
+				for ( i = 0; i < MAX; i++ ){
+					fprintf(out_file, "%d\n", i);
+					for ( j = 0; j < MAX; j++ ){
+						if(M[i][j])
+							fprintf(out_file, "%d ", j); 
+					}
+					fprintf(out_file, "\n");
+				}
+			
+				ctime = 0;
+			}
+				
+		}
+
 	}
 	
 	switch(select){
